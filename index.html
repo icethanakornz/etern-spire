@@ -216,6 +216,7 @@ html:has(#town:not([hidden])),html:has(#muster:not([hidden])){overflow:hidden}
 .pot{display:inline-block;font-size:.66rem;line-height:1.5;padding:0 6px;color:var(--pc);border:1px solid var(--pc);background:rgba(0,0,0,.35);white-space:nowrap;font-family:var(--display)}.pot.rb{animation:potrb 2.4s linear infinite}@keyframes potrb{0%,100%{color:#ff7a7a;border-color:#ff7a7a}25%{color:#ffd25a;border-color:#ffd25a}50%{color:#7fffa0;border-color:#7fffa0}75%{color:#7fb8ff;border-color:#7fb8ff}}.s10c .pot{font-size:.58rem;padding:0 3px;margin-top:2px;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 #newVer{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:2000;font-family:var(--display);color:#1a0f08;background:#ffd25a;border:1px solid #8a6236;padding:8px 18px;cursor:pointer}
 #loadMsg{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2000;padding:12px 22px;font-family:var(--display);color:#ffe2a8;background:rgba(20,14,9,.92);border:1px solid #8a6236;box-shadow:0 0 0 3px #2c1f15,0 8px 24px rgba(0,0,0,.6);pointer-events:none}
+#bootLoad{position:fixed;inset:0;z-index:3000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#0b0a0d;color:#c9b08a}#bootLoad b{font-family:var(--display);font-size:2rem;color:#ffd8a0;letter-spacing:.06em}#bootLoad span{font-size:.9rem}
 .sumcard{position:absolute;left:50%;top:78%;transform:translate(-50%,-50%);z-index:6;cursor:pointer;padding:16px 22px 10px;min-width:300px;color:#efe2c8;background:linear-gradient(#2c1f15,#1b130d);border:1px solid #120b06;box-shadow:inset 0 0 0 1px #8a6236,inset 0 0 0 3px #2c1f15,inset 0 0 0 4px #4a3420,0 0 40px rgba(130,240,255,.35),0 8px 0 rgba(0,0,0,.5);animation:scin .5s ease-out}
 .sumcard.vio{box-shadow:inset 0 0 0 1px #8a6236,inset 0 0 0 3px #2c1f15,inset 0 0 0 4px #4a3420,0 0 46px rgba(200,150,255,.45),0 8px 0 rgba(0,0,0,.5)}
 .sumcard.gold{box-shadow:inset 0 0 0 1px #c9a24a,inset 0 0 0 3px #2c1f15,inset 0 0 0 4px #6a4a20,0 0 56px rgba(255,214,120,.55),0 8px 0 rgba(0,0,0,.5)}
@@ -234,18 +235,6 @@ html:has(#town:not([hidden])),html:has(#muster:not([hidden])){overflow:hidden}
 .lglow{mix-blend-mode:screen;opacity:.0;animation:fl 3.1s infinite}.lglow.g1{animation-duration:2.3s;animation-delay:-.7s}.lglow.g2{animation-duration:3.7s;animation-delay:-1.9s}
 @keyframes fl{0%,100%{opacity:.05}20%{opacity:.22}35%{opacity:.08}55%{opacity:.18}70%{opacity:.04}85%{opacity:.16}}
 .lcyan{mix-blend-mode:screen;animation:cy 4s ease-in-out infinite}@keyframes cy{0%,100%{opacity:.08}50%{opacity:.5}}
-#inside{position:fixed;inset:0;z-index:905;background:#0b0a0d;overflow:hidden;font-size:.86rem}
-#inside .muted{color:var(--muted)}
-.inhead{position:absolute;left:0;right:0;top:0;z-index:3;display:flex;gap:12px;align-items:center;padding:8px 14px;background:linear-gradient(rgba(11,10,13,.92),rgba(11,10,13,.5) 75%,transparent)}
-.inhead b{font-family:var(--display);font-size:1.2rem;color:var(--ember)}
-.inbody{position:absolute;inset:0}.inworld{position:absolute;left:0;top:0;width:960px;height:540px;transform-origin:0 0}
-.inworld canvas{width:960px;height:540px;image-rendering:pixelated;display:block;cursor:default}
-#inPanel{top:62px}
-.intray{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:3;display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:min(1100px,94vw);padding:6px 8px;background:rgba(12,10,14,.9);border:1px solid #6a5030}
-.intray .tp{display:flex;flex-direction:column;align-items:center;width:52px;cursor:grab;font-size:.62rem;line-height:1.1;user-select:none}
-.intray .tp img{width:40px;height:40px;image-rendering:pixelated;object-fit:cover;object-position:50% 10%;background:#2a2420;border-bottom:2px solid #5fbf7a;pointer-events:none}
-.intray .tp.mid img{border-bottom-color:#ffb050}.intray .tp.hi img{border-bottom-color:#ff5a5a}.intray .tp.off{opacity:.35;cursor:not-allowed}
-.intray .ttl{width:100%;text-align:center;font-size:.72rem;color:var(--muted)}
 .hot{position:absolute;cursor:pointer}
 .badge{position:absolute;transform:translate(-50%,0);display:flex;gap:1px;align-items:center;padding:1px;background:linear-gradient(#4b3222,#2f1e13);border:1px solid #140c07;box-shadow:inset 0 0 0 1px #8a6236,0 2px 0 rgba(0,0,0,.5);z-index:2}
 .badge img{width:14px;height:14px;image-rendering:pixelated;object-fit:cover;object-position:50% 12%;background:#2a2420;position:static;pointer-events:auto;cursor:help;border-bottom:1px solid #5fbf7a}
@@ -351,11 +340,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .log div:first-child{color:var(--fg)}
 </style>
 
-<div id="inside" hidden>
-  <div class="inhead"><button id="inBack">← กลับเมือง</button><b id="inTitle"></b><span id="inInfo" class="muted"></span><span style="margin-left:auto"></span><span id="inBtns"></span></div>
-  <div class="inbody"><div id="inWorld" class="inworld"><canvas id="inCv" width="960" height="540"></canvas></div><aside id="inPanel" class="bldpanel"></aside></div>
-  <div id="inTray" class="intray" hidden></div>
-</div>
+<div id="bootLoad"><b>Etern Spire</b><span id="bootMsg">กำลังโหลด…</span></div>
 <div id="muster" hidden>
   <canvas id="muCv"></canvas>
   <div class="mu-veil" id="muVeil"></div>
@@ -2430,22 +2415,22 @@ function dropGen(){ for(const k of Object.keys(HERO_DEFS)) if(HERO_DEFS[k].gen){
 const TOWN=townNew(); let G0gold=0;
 const goldFor=(n,boss)=>Math.round((15+n*3)*(boss?4:1));
 const BLD=[
-  {id:'gate',n:'ประตูหอคอย',i:'⛩',c:'#e0a33c',x:480,y:118,w:192,h:192,img:'a/5ab0e139f951b19c.png',gate:1,d:'จุดส่งปาร์ตี้ขึ้นไปไต่หอคอย จัดทีมและเลือกโซนที่นี่'},
-  {id:'lodging',n:'หอพัก',i:'⌂',c:'#7fa8d8',x:140,y:262,w:128,h:128,img:'a/2bb44aa647906871.png',max:5,cost:l=>90*l,d:'ที่นอนของฮีโร่ ความจุจำกัดตามเลเวล ฮีโร่ที่ไม่ได้ลงหอและมีเตียงจะได้พักฟื้น',
+  {id:'gate',n:'ประตูหอคอย',i:'⛩',c:'#e0a33c',x:480,y:118,w:192,h:192,gate:1,d:'จุดส่งปาร์ตี้ขึ้นไปไต่หอคอย จัดทีมและเลือกโซนที่นี่'},
+  {id:'lodging',n:'หอพัก',i:'⌂',c:'#7fa8d8',x:140,y:262,w:128,h:128,max:5,cost:l=>90*l,d:'ที่นอนของฮีโร่ ความจุจำกัดตามเลเวล ฮีโร่ที่ไม่ได้ลงหอและมีเตียงจะได้พักฟื้น',
     eff:l=>`เตียง ${lodgeCap(l)} ที่ · คนที่อยู่เมืองได้พัก ลดความเครียด ${lodgeRest(l)}`},
-  {id:'canteen',n:'โรงอาหาร',i:'♨',c:'#e08a5a',x:318,y:290,w:128,h:128,img:'a/2341bc1692da4845.png',max:5,cost:l=>70*l,d:'เสบียง อาหาร และเครื่องดื่มฟรีทุกวัน คุณภาพดีขึ้นตามเลเวล',
+  {id:'canteen',n:'โรงอาหาร',i:'♨',c:'#e08a5a',x:318,y:290,w:128,h:128,max:5,cost:l=>70*l,d:'เสบียง อาหาร และเครื่องดื่มฟรีทุกวัน คุณภาพดีขึ้นตามเลเวล',
     eff:l=>`อาหาร${['','พื้นๆ','อุ่นท้อง','ดี','อร่อย','งานเลี้ยง'][l]} · ทุกคนลดความเครียด ${canteenRest(l)} ต่อวัน`},
-  {id:'pool',n:'สระว่ายน้ำ',i:'≈',c:'#5ac8d8',x:140,y:440,w:128,h:128,img:'a/665e63267d2d7bdd.png',max:5,cost:l=>l===0?150:100*l,d:'ที่หย่อนใจ ส่งฮีโร่มาพักผ่อนได้ ลดความเครียดมาก แต่วันนั้นลงหอไม่ได้',
+  {id:'pool',n:'สระว่ายน้ำ',i:'≈',c:'#5ac8d8',x:140,y:440,w:128,h:128,max:5,cost:l=>l===0?150:100*l,d:'ที่หย่อนใจ ส่งฮีโร่มาพักผ่อนได้ ลดความเครียดมาก แต่วันนั้นลงหอไม่ได้',
     eff:l=>l?`รับได้ ${poolSlots(l)} คน · ลดความเครียดเพิ่ม ${poolRest(l)}`:'ยังไม่ได้สร้าง'},
   {id:'square',n:'ลูกโลกมิติอัญเชิญ',i:'✣',c:'#7fe8ff',x:480,y:318,w:128,h:128,globe:1,d:'เปิดมิติอัญเชิญผู้คนจากโลกอื่นมาเป็นฮีโร่'},
-  {id:'meet',n:'ห้องประชุม',i:'☰',c:'#b0a0d8',x:656,y:150,w:128,h:128,img:'a/c3e88131c7a7c364.png',meet:1,d:'วางแผนการลงหอของแต่ละปาร์ตี้ จัดสายบังคับบัญชา'},
-  {id:'research',n:'ฝ่ายวิจัย',i:'⚗',c:'#8fd0a0',x:830,y:160,w:128,h:128,img:'a/d2b9d53d3cc38f84.png',lab:1,d:'วิจัยการตอบสนองของฮีโร่ ระบบในเมือง และเงื่อนไขการเข้าถึงหอคอย'},
-  {id:'smithy',n:'โรงตีเหล็ก',i:'⚒',c:'#d86a5a',x:652,y:330,w:128,h:128,img:'a/8e71b354dc5c2e96.png',forge:1,d:'สร้าง ซ่อม และตีบวกอาวุธกับชุดเกราะ (ชุดถัดไป: ของดรอป + อุปกรณ์)'},
-  {id:'wood',n:'โรงแปรรูปไม้',i:'⚘',c:'#a8865a',x:830,y:318,w:128,h:128,img:'a/7de3f070636a9a12.png',soon:1,d:'แปรรูปไม้สำหรับอุปกรณ์และสิ่งปลูกสร้าง'},
-  {id:'metal',n:'โรงแปรรูปโลหะ',i:'⚙',c:'#9aa4b0',x:830,y:462,w:128,h:128,img:'a/bc72ba307bd64783.png',soon:1,d:'แปรรูปแร่และวัสดุที่ดรอปจากหอคอย'},
-  {id:'synth',n:'ห้องสังเคราะห์',i:'✧',c:'#c08cff',x:480,y:464,w:128,h:128,img:'a/cfc40bd0548572e1.png',synth:1,d:'รวม/สังเคราะห์ไอเทมและฮีโร่ อัปดาว สกัดตัวละคร'},
-  {id:'train',n:'ศูนย์ฝึกซ้อม',i:'⚔',c:'#e0c060',x:316,y:456,w:128,h:128,img:'a/9b5b8ba3c3920292.png',yard:1,d:'ซ้อมมือ ฝึกสกิล ขัดเกลาทักษะ (ไม่เพิ่มสเตตัสตรงๆ) ต่อกับหนังสือสกิล'},
-  {id:'locker',n:'ตู้ของใช้ประจำวัน',i:'▣',c:'#8a9ab8',x:300,y:138,w:128,h:128,img:'a/e71c7669485f6487.png',soon:1,d:'ของใช้จิปาถะเติมให้ทุกวัน (ชื่อ/กลไกชั่วคราว จะออกแบบให้เป็นของเราเอง)'},
+  {id:'meet',n:'ห้องประชุม',i:'☰',c:'#b0a0d8',x:656,y:150,w:128,h:128,meet:1,d:'วางแผนการลงหอของแต่ละปาร์ตี้ จัดสายบังคับบัญชา'},
+  {id:'research',n:'ฝ่ายวิจัย',i:'⚗',c:'#8fd0a0',x:830,y:160,w:128,h:128,lab:1,d:'วิจัยการตอบสนองของฮีโร่ ระบบในเมือง และเงื่อนไขการเข้าถึงหอคอย'},
+  {id:'smithy',n:'โรงตีเหล็ก',i:'⚒',c:'#d86a5a',x:652,y:330,w:128,h:128,forge:1,d:'สร้าง ซ่อม และตีบวกอาวุธกับชุดเกราะ (ชุดถัดไป: ของดรอป + อุปกรณ์)'},
+  {id:'wood',n:'โรงแปรรูปไม้',i:'⚘',c:'#a8865a',x:830,y:318,w:128,h:128,soon:1,d:'แปรรูปไม้สำหรับอุปกรณ์และสิ่งปลูกสร้าง'},
+  {id:'metal',n:'โรงแปรรูปโลหะ',i:'⚙',c:'#9aa4b0',x:830,y:462,w:128,h:128,soon:1,d:'แปรรูปแร่และวัสดุที่ดรอปจากหอคอย'},
+  {id:'synth',n:'ห้องสังเคราะห์',i:'✧',c:'#c08cff',x:480,y:464,w:128,h:128,synth:1,d:'รวม/สังเคราะห์ไอเทมและฮีโร่ อัปดาว สกัดตัวละคร'},
+  {id:'train',n:'ศูนย์ฝึกซ้อม',i:'⚔',c:'#e0c060',x:316,y:456,w:128,h:128,yard:1,d:'ซ้อมมือ ฝึกสกิล ขัดเกลาทักษะ (ไม่เพิ่มสเตตัสตรงๆ) ต่อกับหนังสือสกิล'},
+  {id:'locker',n:'ตู้ของใช้ประจำวัน',i:'▣',c:'#8a9ab8',x:300,y:138,w:128,h:128,soon:1,d:'ของใช้จิปาถะเติมให้ทุกวัน (ชื่อ/กลไกชั่วคราว จะออกแบบให้เป็นของเราเอง)'},
 ];
 const lodgeCap=l=>20+5*(l-1), lodgeRest=l=>30+5*(l-1), canteenRest=l=>4+3*l, poolSlots=l=>1+l, poolRest=l=>30+10*l;
 let BSEL='gate', BPANEL=false, DAYSEEN=0, DAYT=0;
@@ -2555,26 +2540,6 @@ function crowdPos(o,t){ if(!o.walk) return {x:o.x,y:o.y,dir:o.dir,f:0,al:1}; con
   const an=Math.atan2(y2-y,x2-x), dir=DIRS[((Math.round(an/(Math.PI/4))%8)+8)%8]; return {x,y,dir,f:Math.floor(Math.abs(d)/3.2)%9,al}; }
 // the walker strolls along the paving south of the globe and back
 function walkerPos(t){ const L=330, span=320, sp=13, per=2*span/sp, u=(t%per)/per; return u<.5?{x:L+u*2*span,y:309,flip:0}:{x:L+span-(u-.5)*2*span,y:313,flip:1}; }
-const BEAST={"giant": {"y": 130, "size": 135, "sp": 7, "walk": 1, "a": 0.72, "n": 9, "w": 109, "h": 102}, "behemoth": {"y": 122, "size": 95, "sp": 8, "walk": 1, "a": 0.68, "n": 9, "w": 122, "h": 76}, "dragon": {"y": 86, "size": 88, "sp": 18, "a": 0.72, "bob": 5, "n": 9, "w": 121, "h": 118}, "airship": {"y": 72, "size": 66, "sp": 9, "a": 0.75, "bob": 2, "n": 1, "w": 117, "h": 108}, "leviathan": {"y": 74, "size": 84, "sp": 8, "a": 0.6, "bob": 6, "faceRight": 1, "n": 1, "w": 114, "h": 64}};
-const BEASTIMG={giant:'a/3f4316837517e5a8.png',behemoth:'a/da54deae291ea2ac.png',dragon:'a/19ffb4203a99ccf8.png',airship:'a/7805c4218ecd024f.png',leviathan:'a/d087457c3a897ee3.png'};
-// far beyond the wall: one huge shape at a time drifts or walks past in the mist, then a quiet gap, then another (never the same twice in a row)
-function beastNext(ts){ const ks=Object.keys(BEAST).filter(k=>k!==(AMB.bLast||'')), k=ks[Math.floor(Math.random()*ks.length)], B=BEAST[k], dir=Math.random()<.5?1:-1, w=B.size*B.w/B.h;
-  AMB.bLast=k; AMB.bst={k,dir,x:dir>0?-w:960+w,w,t0:ts,ph:Math.random()*6}; }
-function ambBeast(g,t,ts){
-  if(!AMB.skyM){ const im=inImg('a/880ee04e03d7e9ca.png'); if(!im.complete||!im.naturalWidth) return; const c=document.createElement('canvas'); c.width=1920; c.height=300; c.getContext('2d').drawImage(im,0,0,1920,300,0,0,1920,300); AMB.skyM=c;
-    AMB.bCan=document.createElement('canvas'); AMB.bCan.width=1920; AMB.bCan.height=300; AMB.bNext=ts+6000; for(const k in BEASTIMG) inImg(BEASTIMG[k]); }
-  if(!AMB.bst){ if(ts>AMB.bNext) beastNext(ts); return; }
-  const S=AMB.bst, B=BEAST[S.k], im=inImg(BEASTIMG[S.k]); if(!im.complete||!im.naturalWidth) return;
-  S.x+=S.dir*B.sp/60; const w=S.w, h=B.size; if(S.dir>0?S.x>960+w:S.x<-w){ AMB.bst=null; AMB.bNext=ts+9000+Math.random()*14000; return; }
-  const fr=B.n>1?Math.floor(t*(B.walk?5:6)+S.ph)%B.n:0, y=B.y-h+(B.bob?Math.sin(t*.6+S.ph)*B.bob:0), edge=Math.min(1,(S.dir>0?S.x+w:960+w-S.x)/80,(S.dir>0?960+w-S.x:S.x+w)/80);
-  // silhouette on its own layer: the creature in fog colour, then cut to the sky/mountains so it stays behind the tower and walls
-  const q=AMB.bCan.getContext('2d'); q.setTransform(1,0,0,1,0,0); q.clearRect(0,0,1920,300); q.globalCompositeOperation='source-over'; q.globalAlpha=1;
-  const flip=(S.dir>0)!==!!B.faceRight; q.save(); if(flip){ q.translate(S.x*2,0); q.scale(-1,1); q.translate(-S.x*2,0); }
-  q.imageSmoothingEnabled=true; q.drawImage(im,fr*B.w,0,B.w,B.h,(S.x-w/2)*2,y*2,w*2,h*2); q.restore();
-  q.globalCompositeOperation='source-in'; q.fillStyle='#3a3d4a'; q.fillRect(0,0,1920,300);
-  q.globalCompositeOperation='destination-in'; q.drawImage(AMB.skyM,0,0);
-  g.setTransform(1,0,0,1,0,0); g.globalCompositeOperation='source-over'; g.globalAlpha=B.a*edge*(.85+.15*Math.sin(t*.4)); g.drawImage(AMB.bCan,0,0); g.globalAlpha=1; g.setTransform(2,0,0,2,0,0);
-}
 const AMB_SMOKE=[[235,69,1],[743,57,1],[884,49,1],[634,339,1],[103,333,1],[178,268,2],[168,282,2]];
 function ambMasks(img){
   const W=960,H=540, c=document.createElement('canvas'); c.width=W; c.height=H; const g=c.getContext('2d',{willReadFrequently:true}); g.drawImage(img,0,0,W,H);
@@ -2729,7 +2694,6 @@ function townAmb(ts){
       for(const ox of [-W3,0,W3]){ const gr=cg.createRadialGradient(x+ox,y,0,x+ox,y,r); gr.addColorStop(0,`rgba(226,229,236,${a})`); gr.addColorStop(1,'rgba(226,229,236,0)'); cg.fillStyle=gr; cg.fillRect(x+ox-r,y-r,r*2,r*2); } }
     cg.globalCompositeOperation='destination-in'; const vg=cg.createLinearGradient(0,0,0,H3); vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(.35,'rgba(0,0,0,1)'); vg.addColorStop(.75,'rgba(0,0,0,1)'); vg.addColorStop(1,'rgba(0,0,0,0)'); cg.fillStyle=vg; cg.fillRect(0,0,W3,H3);
     AMB.cloud=cc; AMB.cx1=0; AMB.cx2=300; }
-  // ambBeast(g,t,ts);  // skyline silhouettes: off (ICE 2026-11-11: did not pass)
   g.globalCompositeOperation='source-over';
   AMB.cx1=(AMB.cx1+(1.2+2.4*WIND)/60)%1024; AMB.cx2=(AMB.cx2+(2.2+3.6*WIND)/60)%1024;
   for(const [off,y,a,sy] of [[AMB.cx1,4,.75,1],[AMB.cx2,26,.55,.8]]){ g.globalAlpha=a; for(let x=-off;x<960;x+=1024) g.drawImage(AMB.cloud,x,y+Math.sin(t*.07+sy)*3,1024,128*sy); }
@@ -2902,7 +2866,6 @@ function ambSummonFx(g,ts,ss0,SU,C){ let ss=ss0;
   if(ss>4.3&&!SU.card){ SU.card=true; if(SU.multi) sumCards(SU.multi); else sumCard(SU.k); }
   g.globalCompositeOperation='source-over'; g.globalAlpha=1;
 }
-function bldPanelTo(target){ bldPanel(target); }
 function bldPanel(target){
   const b=BLD.find(x=>x.id===BSEL), lv=TOWN.lv[b.id]||0, el=target||$('bldPanel');
   let h=`<button class="x" id="bClose">✕</button><h3>${b.i} ${b.n}</h3><div class="muted">${b.d}</div>`;
@@ -2928,117 +2891,15 @@ function bldPanel(target){
   el.querySelectorAll('[data-ex]').forEach(x=>x.onclick=()=>{ if(extractHero(x.dataset.ex)) bldPanel(target); });
   if($('bSum')) $('bSum').onclick=()=>{ if(TOWN.gold<SUMMON.cost) return; el.hidden=true; BPANEL=false; townSummon(1); };
   if($('bSum10')) $('bSum10').onclick=()=>{ if(TOWN.gold<SUMMON.cost*10) return; el.hidden=true; BPANEL=false; townSummon(10); };
-  if($('bUp')) $('bUp').onclick=()=>{ const c=b.cost(lv); if(TOWN.gold<c) return; TOWN.gold-=c; TOWN.lv[b.id]=lv+1; saveGame(`${b.n} Lv ${lv+1}`); if(IN){ bldPanelTo($('inPanel')); inLayout(); } else openTown(); };
+  if($('bUp')) $('bUp').onclick=()=>{ const c=b.cost(lv); if(TOWN.gold<c) return; TOWN.gold-=c; TOWN.lv[b.id]=lv+1; saveGame(`${b.n} Lv ${lv+1}`); openTown(); };
   el.querySelectorAll('.plist input').forEach(cb=>cb.addEventListener('change',()=>{ const k=cb.dataset.k;
     if(cb.checked){ if(TOWN.pool.length>=poolSlots(lv)){cb.checked=false;return;} TOWN.pool.push(k); roster[k].row=null; } else TOWN.pool=TOWN.pool.filter(x=>x!==k);
-    saveGame(); bldPanel(target); if(IN) inLayout(); }));
+    saveGame(); bldPanel(target); }));
 }
 
 /* ---------- interiors ---------- */
-// bg -> (gate door state) -> heroes sorted by feet y, clipped by spot type -> fg. Spot data from Codex (art-tests/town/v3/*_spots.json).
-const INSCN={gate:{n:'ประตูหอคอย',bg:'a/7d4c9710e2e1d25b.png',fg:'a/6f8efe2e4b8481a7.png'},lodging:{n:'หอพัก',bg:'a/8651f150a4bac6a2.png',fg:'a/9a50201a2cffb642.png'},
-  canteen:{n:'โรงอาหาร',bg:'a/4cd89645393e5574.png',fg:'a/33d471d38ec2c658.png'},pool:{n:'สระว่ายน้ำ',bg:'a/757ba9b24fb30074.png',fg:'a/7121ef1b2a02fefc.png'}};
-const INSPOT={"gate":[{"id":"team_1_1","type":"stand","x":117,"y":330,"team":1},{"id":"team_1_2","type":"stand","x":160,"y":330,"team":1},{"id":"team_1_3","type":"stand","x":203,"y":330,"team":1},{"id":"team_1_4","type":"stand","x":117,"y":415,"team":1},{"id":"team_1_5","type":"stand","x":160,"y":415,"team":1},{"id":"team_2_1","type":"stand","x":277,"y":330,"team":2},{"id":"team_2_2","type":"stand","x":320,"y":330,"team":2},{"id":"team_2_3","type":"stand","x":363,"y":330,"team":2},{"id":"team_2_4","type":"stand","x":277,"y":415,"team":2},{"id":"team_2_5","type":"stand","x":320,"y":415,"team":2},{"id":"team_3_1","type":"stand","x":437,"y":330,"team":3},{"id":"team_3_2","type":"stand","x":480,"y":330,"team":3},{"id":"team_3_3","type":"stand","x":523,"y":330,"team":3},{"id":"team_3_4","type":"stand","x":437,"y":415,"team":3},{"id":"team_3_5","type":"stand","x":480,"y":415,"team":3},{"id":"team_4_1","type":"stand","x":597,"y":330,"team":4},{"id":"team_4_2","type":"stand","x":640,"y":330,"team":4},{"id":"team_4_3","type":"stand","x":683,"y":330,"team":4},{"id":"team_4_4","type":"stand","x":597,"y":415,"team":4},{"id":"team_4_5","type":"stand","x":640,"y":415,"team":4},{"id":"team_5_1","type":"stand","x":757,"y":330,"team":5},{"id":"team_5_2","type":"stand","x":800,"y":330,"team":5},{"id":"team_5_3","type":"stand","x":843,"y":330,"team":5},{"id":"team_5_4","type":"stand","x":757,"y":415,"team":5},{"id":"team_5_5","type":"stand","x":800,"y":415,"team":5}],"lodging":[{"id":"bed_01","type":"bed","x":153,"y":165,"head_visible_bounds":[[142,157],[164,157],[164,175],[142,175]]},{"id":"bed_02","type":"bed","x":318,"y":165,"head_visible_bounds":[[307,157],[329,157],[329,175],[307,175]]},{"id":"bed_03","type":"bed","x":483,"y":165,"head_visible_bounds":[[472,157],[494,157],[494,175],[472,175]]},{"id":"bed_04","type":"bed","x":649,"y":165,"head_visible_bounds":[[638,157],[660,157],[660,175],[638,175]]},{"id":"bed_05","type":"bed","x":814,"y":165,"head_visible_bounds":[[803,157],[825,157],[825,175],[803,175]]},{"id":"bed_06","type":"bed","x":153,"y":371,"head_visible_bounds":[[142,363],[164,363],[164,381],[142,381]]},{"id":"bed_07","type":"bed","x":318,"y":371,"head_visible_bounds":[[307,363],[329,363],[329,381],[307,381]]},{"id":"bed_08","type":"bed","x":483,"y":371,"head_visible_bounds":[[472,363],[494,363],[494,381],[472,381]]},{"id":"bed_09","type":"bed","x":649,"y":371,"head_visible_bounds":[[638,363],[660,363],[660,381],[638,381]]},{"id":"bed_10","type":"bed","x":814,"y":371,"head_visible_bounds":[[803,363],[825,363],[825,381],[803,381]]}],"canteen":[{"id":"seat_01","type":"sit","x":204,"y":257,"facing":"south","visible_body_clip_y":234},{"id":"seat_02","type":"sit","x":297,"y":257,"facing":"south","visible_body_clip_y":234},{"id":"seat_03","type":"sit","x":390,"y":257,"facing":"south","visible_body_clip_y":234},{"id":"seat_04","type":"sit","x":599,"y":257,"facing":"south","visible_body_clip_y":234},{"id":"seat_05","type":"sit","x":692,"y":257,"facing":"south","visible_body_clip_y":234},{"id":"seat_06","type":"sit","x":786,"y":257,"facing":"south","visible_body_clip_y":234},{"id":"seat_07","type":"sit","x":204,"y":403,"facing":"north","visible_body_clip_y":365},{"id":"seat_08","type":"sit","x":297,"y":403,"facing":"north","visible_body_clip_y":365},{"id":"seat_09","type":"sit","x":390,"y":403,"facing":"north","visible_body_clip_y":365},{"id":"seat_10","type":"sit","x":599,"y":403,"facing":"north","visible_body_clip_y":365},{"id":"seat_11","type":"sit","x":692,"y":403,"facing":"north","visible_body_clip_y":365},{"id":"seat_12","type":"sit","x":786,"y":403,"facing":"north","visible_body_clip_y":365}],"pool":[{"id":"water_01","type":"water","x":325,"y":300,"waterline_y":270},{"id":"water_02","type":"water","x":480,"y":300,"waterline_y":270},{"id":"water_03","type":"water","x":635,"y":300,"waterline_y":270},{"id":"water_04","type":"water","x":325,"y":382,"waterline_y":352},{"id":"water_05","type":"water","x":480,"y":382,"waterline_y":352},{"id":"water_06","type":"water","x":635,"y":382,"waterline_y":352},{"id":"bench_1","type":"sit","x":149,"y":177,"facing":"south"},{"id":"bench_2","type":"sit","x":213,"y":177,"facing":"south"},{"id":"bench_3","type":"sit","x":745,"y":177,"facing":"south"},{"id":"bench_4","type":"sit","x":808,"y":177,"facing":"south"}]};
-const DOORIMG={closed:'a/0430d18a53314d4d.png',charging:'a/656f1f551b9aa16b.png',portal:['a/5713d05fd396fb16.png','a/19164dfeab86492f.png','a/40f7ff6865df7669.png','a/78d2ab196565c604.png','a/d2d2a130cf720b44.png','a/ea3375fe3d60383a.png','a/af77d8f5f3bae995.png','a/a2cd7a24e6f5ca36.png']};
 const INIMG={}; const inImg=src=>INIMG[src]||(INIMG[src]=(()=>{const i=new Image(); i.src=src; return i;})());
-let IN=null; const CANTEEN={seat:[],next:0};  // who sits where in the canteen (kept between visits)  // {id, actors:[{k,sp}], drag, hover}
-function openInterior(id){
-  IN={id,drag:null,hover:null,t0:performance.now()}; $('town').hidden=true; $('inside').hidden=false; $('inTitle').textContent=INSCN[id].n;
-  BSEL=id; bldPanelTo($('inPanel')); inLayout(); inFit(); requestAnimationFrame(inDraw);
-}
-function closeInterior(){ IN=null; $('inside').hidden=true; $('inTray').hidden=true; openTown(); }
-$('inBack').addEventListener('click',closeInterior);
-addEventListener('keydown',e=>{ if(e.key==='Escape'&&IN) closeInterior(); });
-function inFit(){ const w=$('inWorld'); let k=Math.min(innerWidth/960,innerHeight/540); if(k>=1) k=Math.max(1,Math.floor(k+.05)); w.style.transform=`translate(${(innerWidth-960*k)/2}px,${(innerHeight-540*k)/2}px) scale(${k})`; IN&&(IN.k=k); }
-addEventListener('resize',()=>{ if(IN) inFit(); });
 const restingIn=()=>Object.keys(roster).filter(k=>roster[k].alive&&!roster[k].row&&HFR[k]);
-// who stands where in each interior
-function inLayout(){
-  const id=IN.id, S=INSPOT[id], A=[]; IN.actors=A;
-  const stress=k=>roster[k].stress||0, rest=restingIn().filter(k=>!TOWN.pool.includes(k)).sort((a,b)=>stress(b)-stress(a));
-  if(id==='gate'){ for(let t=1;t<=MAXTEAMS;t++){ const ks=Object.keys(roster).filter(k=>inTeam(k,t)&&HFR[k]), sp=S.filter(x=>x.team===t); ks.slice(0,5).forEach((k,i)=>A.push({k,sp:sp[i]})); }
-    const n1=deployedCount(1); IN.door=n1?'charging':'closed';
-    $('inInfo').textContent=n1?`ทีม 1 พร้อม ${n1} คน · ทีมเสริม ${[2,3,4,5].filter(t=>deployedCount(t)).length} ทีม`:'ยังไม่มีทีม 1 · ไปจัดทีมก่อน';
-    $('inBtns').innerHTML=`<button id="inTeam">จัดทีมและเลือกโซน</button>`; $('inTeam').onclick=()=>{ $('inside').hidden=true; IN=null; goGate(); };
-    $('inTray').hidden=true; }
-  else if(id==='lodging'){ const beds=S.filter(x=>x.type==='bed'); rest.slice(0,beds.length).forEach((k,i)=>A.push({k,sp:beds[i]}));
-    const cap=lodgeCap(TOWN.lv.lodging), n=restingIn().length; $('inInfo').textContent=`พักผ่อนอยู่ ${n} คน · เตียงทั้งหมด ${cap} ที่${n>cap?' · เตียงไม่พอ '+(n-cap)+' คน':''} · ในห้องนี้ 10 เตียง`;
-    $('inBtns').innerHTML=''; $('inTray').hidden=true; }
-  else if(id==='canteen'){ // only the far side of the tables (facing the camera) is used; the near chairs stay empty.
-    // who sits: the first heroes in roster order (stable, no reshuffling); extra heroes are not drawn
-    const seats=S.filter(x=>x.type==='sit'&&x.facing!=='north'), eat=restingIn().filter(k=>!TOWN.pool.includes(k));
-    CANTEEN.seat=seats.map((_,i)=>eat.includes(CANTEEN.seat[i])?CANTEEN.seat[i]:null);
-    for(let i=0;i<seats.length;i++) if(!CANTEEN.seat[i]){ const k=eat.find(k=>!CANTEEN.seat.includes(k)); if(k) CANTEEN.seat[i]=k; }
-    CANTEEN.seat.forEach((k,i)=>{ if(k) A.push({k,sp:seats[i],seat:i,alpha:1}); }); IN.eat=eat; IN.seats=seats; IN.rotT=performance.now();
-    $('inInfo').textContent=`นั่งกิน ${Math.min(eat.length,seats.length)} คน${eat.length>seats.length?` · อีก ${eat.length-seats.length} คนรอ (สลับที่นั่งทุก 20 วิ)`:''} · อาหารวันนี้: ${['','พื้นๆ','อุ่นท้อง','ดี','อร่อย','งานเลี้ยง'][TOWN.lv.canteen]} · ทุกคนลดความเครียด ${canteenRest(TOWN.lv.canteen)} ต่อวัน`; $('inBtns').innerHTML=''; $('inTray').hidden=true; }
-  else if(id==='pool'){ const water=S.filter(x=>x.type==='water'), bench=S.filter(x=>x.type==='sit'), lv=TOWN.lv.pool;
-    TOWN.pool.slice(0,water.length).forEach((k,i)=>A.push({k,sp:water[i]}));
-    rest.slice(0,bench.length).forEach((k,i)=>A.push({k,sp:bench[i],bench:1}));
-    $('inInfo').textContent=lv?`แช่น้ำได้ ${poolSlots(lv)} คน (${TOWN.pool.length} อยู่ในน้ำ) · ลดความเครียดเพิ่ม ${poolRest(lv)} ต่อวัน · คนในสระลงหอวันนี้ไม่ได้ · ลากฮีโร่ลงน้ำ / ลากออกมาวางที่แถวล่าง`:'ยังไม่ได้สร้างสระ · สร้างได้จากแผงด้านขวา';
-    $('inBtns').innerHTML=''; inTray(); }
-}
-function inTray(){
-  const el=$('inTray'), lv=TOWN.lv.pool; if(!lv){ el.hidden=true; return; } el.hidden=false;
-  const ks=restingIn().filter(k=>!TOWN.pool.includes(k)).sort((a,b)=>(roster[b].stress||0)-(roster[a].stress||0));
-  el.innerHTML=`<div class="ttl">ฮีโร่ที่อยู่ในเมือง (ลากลงน้ำ) · คนที่จัดทีมไว้ต้องเอาออกจากทีมก่อน</div>`+ks.map(k=>{const st=roster[k].stress||0;
-    return `<div class="tp ${st>=100?'hi':st>=50?'mid':''}" data-k="${k}"><img src="${HERO_DEFS[k].pic}" alt=""><span>${HERO_DEFS[k].name}</span><span>เครียด ${Math.round(st)}</span></div>`;}).join('');
-  el.querySelectorAll('.tp').forEach(d=>d.addEventListener('pointerdown',e=>{ e.preventDefault(); IN.drag={k:d.dataset.k,from:'tray',x:0,y:0}; inPointer(e); }));
-}
-function inPt(e){ const r=$('inCv').getBoundingClientRect(); return {x:(e.clientX-r.left)/r.width*960,y:(e.clientY-r.top)/r.height*540}; }
-function inPointer(e){ if(!IN||!IN.drag) return; const p=inPt(e); IN.drag.x=p.x; IN.drag.y=p.y; }
-function inHit(p){ // actor under the pointer (sprite box)
-  for(const a of IN.actors.slice().sort((a,b)=>b.sp.y-a.sp.y)){ const s=HFR[a.k].idle.south, top=a.sp.type==='bed'?a.sp.y-10:a.sp.y-(s.by-s.top), bot=a.sp.type==='bed'?a.sp.y+10:a.sp.type==='water'?a.sp.waterline_y:a.sp.y;
-    if(Math.abs(p.x-a.sp.x)<14&&p.y>top&&p.y<bot) return a; } return null; }
-addEventListener('pointermove',e=>{ if(!IN) return; inPointer(e); const p=inPt(e), h=IN.drag?null:inHit(p), tip=$('twTip');
-  IN.hover=h; if(h){ const d=HERO_DEFS[h.k], r=roster[h.k]; tip.hidden=false; tip.textContent=`${d.name} ${d.stars}★ · เครียด ${Math.round(r.stress||0)}${r.aff?' · '+AFF[r.aff].name:''}${h.sp.type==='water'?` · พรุ่งนี้ −${poolRest(TOWN.lv.pool)+canteenRest(TOWN.lv.canteen)}`:''}`; tip.style.left=(e.clientX+12)+'px'; tip.style.top=(e.clientY+12)+'px'; }
-  else if(!IN.drag) tip.hidden=true; });
-$('inCv').addEventListener('pointerdown',e=>{ if(!IN||IN.id!=='pool'||!TOWN.lv.pool) return; const a=inHit(inPt(e)); if(!a) return; IN.drag={k:a.k,from:a.sp.type,x:0,y:0}; inPointer(e); });
-addEventListener('pointerup',e=>{ if(!IN||!IN.drag) return; const d=IN.drag, p=inPt(e); IN.drag=null; $('twTip').hidden=true;
-  const water=INSPOT.pool.filter(x=>x.type==='water'), inWater=p.x>150&&p.x<810&&p.y>225&&p.y<400, lv=TOWN.lv.pool;
-  if(inWater&&!TOWN.pool.includes(d.k)){ if(TOWN.pool.length>=Math.min(poolSlots(lv),water.length)){ $('inInfo').textContent=`สระเต็มแล้ว (${poolSlots(lv)} คน) อัปเกรดสระเพื่อรับเพิ่ม`; }
-    else { TOWN.pool.push(d.k); roster[d.k].row=null; IN.splash={x:p.x,y:p.y,t:performance.now()}; saveGame(); } }
-  else if(!inWater&&TOWN.pool.includes(d.k)){ TOWN.pool=TOWN.pool.filter(x=>x!==d.k); saveGame(); }
-  inLayout(); });
-// draw one hero at a spot with the clip the spot needs (head only in bed, above the table, above the waterline)
-function inActor(g,a,t){
-  const sp=a.sp, H=HFR[a.k]; if(!H) return; g.globalAlpha=a.alpha??1; const dir=sp.facing==='north'?'north':'south', s=H.idle[dir]||H.idle.south;
-  const bob=sp.type==='water'?Math.round(Math.sin(t*1.6+sp.x)*1):sp.type==='bed'?0:Math.round(Math.sin(t*2+sp.x)*.5);
-  g.save();
-  if(sp.type==='bed'){ const [[x0,y0],[x1]]= [sp.head_visible_bounds[0],sp.head_visible_bounds[1]], y1=sp.head_visible_bounds[2][1]; g.beginPath(); g.rect(x0-2,y0-4,x1-x0+4,y1-y0+4); g.clip();
-    g.drawImage(s.img,Math.round(sp.x-s.bx),Math.round(sp.y-(s.top+9))); }
-  else { const back=IN.id==='canteen'&&sp.facing==='north';  // near side of the table, back to the camera: sits higher, chair back covers the body
-    // back-to-camera seat: show only head, shoulders and upper back above the chair rail (y 355); the rest stays hidden behind the chair
-    const RAIL=355, clipY=sp.type==='water'?sp.waterline_y+bob:back?RAIL+3:sp.visible_body_clip_y; if(clipY){ g.beginPath(); g.rect(0,0,960,clipY); g.clip(); }
-    if(back) g.drawImage(s.img,Math.round(sp.x-s.bx),Math.round(RAIL-26-s.top)+bob);
-    else g.drawImage(s.img,Math.round(sp.x-s.bx),Math.round(sp.y-s.by)+bob); }
-  g.restore(); g.globalAlpha=1;
-  if(sp.type==='bed'&&(roster[a.k].stress||0)<50){ g.fillStyle='rgba(220,230,255,.8)'; g.font='bold 7px sans-serif'; g.fillText('z',sp.x+10+Math.sin(t*1.5+sp.x)*1,sp.y-12-((t*6+sp.x)%10)); }
-  if(IN.hover===a){ g.strokeStyle='rgba(255,210,90,.9)'; g.lineWidth=1; g.strokeRect(sp.x-13,(sp.type==='bed'?sp.y-12:sp.y-(s.by-s.top))-2,26,sp.type==='bed'?24:(s.by-s.top)+4); }
-}
-function inDraw(ts){
-  if(!IN) return; const c=$('inCv'), g=c.getContext('2d'), t=ts/1000, sc=INSCN[IN.id]; g.imageSmoothingEnabled=false; g.clearRect(0,0,960,540);
-  g.drawImage(inImg(sc.bg),0,0);
-  if(IN.id==='gate'){ const im=IN.door==='charging'?inImg(DOORIMG.portal[Math.floor(ts/100)%8]):inImg(DOORIMG.closed); g.drawImage(im,0,0);
-    if(IN.door==='charging'){ g.globalAlpha=.25+.15*Math.sin(t*3); g.drawImage(inImg(DOORIMG.charging),0,0); g.globalAlpha=1; } }
-  // canteen: far side -> table -> near side (backs to camera) -> chair backs; elsewhere: everyone -> foreground
-  const near=a=>IN.id==='canteen'&&a.sp.facing==='north', order=IN.actors.slice().sort((a,b)=>a.sp.y-b.sp.y).filter(a=>!(IN.drag&&IN.drag.k===a.k));
-  for(const a of order) if(!near(a)) inActor(g,a,t);
-  g.drawImage(inImg(sc.fg),0,0);
-  if(IN.id==='canteen'){ for(const a of order) if(near(a)) inActor(g,a,t); g.drawImage(inImg('a/5f99979b40a45437.png'),0,0); }
-  if(IN.id==='canteen'&&IN.eat&&IN.eat.length>IN.seats.length){ const el=ts-IN.rotT;
-    if(el>20000){ IN.rotT=ts; const i=CANTEEN.next++%IN.seats.length, a=IN.actors.find(x=>x.seat===i); if(a) a.leaving=ts; }
-    for(const a of IN.actors.slice()){ if(a.leaving){ a.alpha=Math.max(0,1-(ts-a.leaving)/500); if(a.alpha<=0){
-        const q=IN.eat.filter(k=>!CANTEEN.seat.includes(k)), nk=q[0]; CANTEEN.seat[a.seat]=nk||a.k; Object.assign(a,{k:CANTEEN.seat[a.seat],leaving:null,arriving:ts,alpha:0}); } }
-      else if(a.arriving){ a.alpha=Math.min(1,(ts-a.arriving)/500); if(a.alpha>=1) a.arriving=null; } } }
-  if(IN.id==='pool'){ // rising steam + a splash when someone is dropped in
-    const P=inDraw.p||(inDraw.p=[]); if(Math.random()<.3) P.push({x:200+Math.random()*560,y:390-Math.random()*150,a:.5,r:2});
-    for(let i=P.length-1;i>=0;i--){ const q=P[i]; q.y-=.25; q.r+=.03; q.a-=.004; g.globalAlpha=Math.max(0,q.a); g.fillStyle='#e8eef5'; g.fillRect(Math.round(q.x-q.r),Math.round(q.y-q.r),Math.round(q.r*2),Math.round(q.r*2)); if(q.a<=0) P.splice(i,1); }
-    g.globalAlpha=1; if(IN.splash){ const k=(ts-IN.splash.t)/600; if(k<1){ g.strokeStyle=`rgba(200,240,255,${1-k})`; g.beginPath(); g.ellipse(IN.splash.x,IN.splash.y,6+k*24,3+k*10,0,0,7); g.stroke(); } else IN.splash=null; }
-    for(const a of IN.actors) if(a.sp.type==='water'){ const r=roster[a.k]; g.font='bold 7px sans-serif'; g.textAlign='center'; g.fillStyle='#0b0a0d'; g.fillText(`${Math.round(r.stress||0)}`,a.sp.x+1,a.sp.y-62+1); g.fillStyle=(r.stress||0)>=100?'#ff8a8a':'#bff4ff'; g.fillText(`${Math.round(r.stress||0)} ↓${poolRest(TOWN.lv.pool)}`,a.sp.x,a.sp.y-62); g.textAlign='left'; } }
-  if(IN.drag){ const s=HFR[IN.drag.k].idle.south; g.globalAlpha=.85; g.drawImage(s.img,Math.round(IN.drag.x-s.bx),Math.round(IN.drag.y-s.by+20)); g.globalAlpha=1;
-    const inWater=IN.drag.x>150&&IN.drag.x<810&&IN.drag.y>225&&IN.drag.y<400; g.strokeStyle=inWater?'rgba(150,230,255,.9)':'rgba(255,255,255,.3)'; g.setLineDash([3,3]); g.strokeRect(150,228,660,172); g.setLineDash([]); }
-  requestAnimationFrame(inDraw);
-}
 function goGate(){ $('town').hidden=true; refreshSetup(); scrollTo(0,0); openMuster(); }
 /* ---------- muster: the forecourt before the tower gate, where teams are formed and sent ---------- */
 // The scene is the town painting, zoomed on the gate. Six rune circles on the paving: back row (nearer the gate) and front row,
@@ -3151,37 +3012,14 @@ $('muGo').addEventListener('click',async()=>{
   for(const k of dep) if(!(HFR[k]&&HFR[k].full)){ muHint(`กำลังเตรียมทีม ${++i}/${dep.length}…`); await buildHero(k,true); }
   muHint('ประตูกำลังเปิด…'); MU.go={t0:performance.now()}; sfx('gate');
 });
-// floor rings: plain glowing ellipses drawn on the art grid and added as light, so they read as glow on the stone
-// MU_RING: 'pf' = PixelLab seal, 'a' thin ring, 'b' double ring, 'c' ring with a light pool inside
-let MU_RING='k';   // 'k' = smooth round ring like the gate wardens' aura, in gold (ICE's pick)
-function muRings(g,X,slots,t){
-  if(MU_RING==='pf'){ const rs=inImg('a/e82110c8b2b12480.png'), ok=rs.complete&&rs.naturalWidth, m=X.k/3; g.imageSmoothingEnabled=false;
-    if(ok) for(const sl of slots){ const on=MU.dragAt===sl||MU.hover===sl, w=Math.round(96*m), h=Math.round(42*m), x=Math.round(sl.x-w/2), y=Math.round(sl.y-h*.52);
-      g.drawImage(rs,x,y,w,h); g.globalCompositeOperation='lighter'; g.globalAlpha=(on?.55:.12)+.14*(.5+.5*Math.sin(t*2.2+sl.i*1.3)); g.drawImage(rs,x,y,w,h); g.globalAlpha=1; g.globalCompositeOperation='source-over'; }
-    return; }
-  if(MU_RING==='k'){ const m=X.k*1.18;   // same shape as the wardens' foot ring (lobby units x m), a little wider
+// floor rings: smooth gold ellipses like the gate wardens' aura (ICE's pick)
+function muRings(g,X,slots,t){ const m=X.k*1.18;   // same shape as the wardens' foot ring (lobby units x m), a little wider
     for(const sl of slots){ const on=MU.dragAt===sl||MU.hover===sl, pu=.5+.5*Math.sin(t*1.8+sl.i*1.2); g.save(); g.translate(sl.x,sl.y); g.scale(m,m); g.globalCompositeOperation='screen';
       const gr=g.createRadialGradient(0,0,0,0,0,14); gr.addColorStop(0,`rgba(255,214,110,${on?.5:.22+.1*pu})`); gr.addColorStop(1,'rgba(255,190,80,0)'); g.save(); g.scale(1,.3); g.fillStyle=gr; g.fillRect(-14,-14,28,28); g.restore();
       g.strokeStyle=`rgba(255,224,130,${on?1:.55+.3*pu})`; g.lineWidth=on?1:.75; g.beginPath(); g.ellipse(0,0,12,3.5,0,0,Math.PI*2); g.stroke();
       for(let i=0;i<6;i++){ const an=t*1.2+i*Math.PI/3+sl.i; g.fillStyle='#fff3c4'; g.globalAlpha=.6+.4*Math.sin(an*2); g.fillRect(Math.cos(an)*12-.5,Math.sin(an)*3.5-.5,1,1); }
       g.globalAlpha=1; g.globalCompositeOperation='source-over'; g.restore(); }
-    return; }
-  if(!MU.rl) MU.rl=cnv(MU_VIEW.w,MU_VIEW.h);
-  const q=MU.rl.getContext('2d'), id=q.createImageData(MU_VIEW.w,MU_VIEW.h), D=id.data;
-  const px=(x,y,c,al)=>{ x=Math.round(x); y=Math.round(y); if(x<0||y<0||x>=MU_VIEW.w||y>=MU_VIEW.h) return; const i=(y*MU_VIEW.w+x)*4, v=al*255; if(D[i+3]>=v) return; D[i]=c[0]; D[i+1]=c[1]; D[i+2]=c[2]; D[i+3]=v; };
-  const ring=(cx,cy,rx,ry,c,al,gap)=>{ const n=Math.ceil((rx+ry)*4); for(let i=0;i<n;i++){ if(gap&&i%gap===gap-1) continue; const an=i/n*Math.PI*2; px(cx+Math.cos(an)*rx,cy+Math.sin(an)*ry,c,al); } };
-  for(const sl of slots){ const cx=(sl.x-X.ox)/X.k, cy=(sl.y-X.oy)/X.k, on=MU.dragAt===sl||MU.hover===sl, pu=.5+.5*Math.sin(t*2+sl.i*1.2), al=on?1:.7+.25*pu;
-    const rim=on?[255,230,160]:[255,168,82], soft=[226,110,48];
-    if(MU_RING==='a') ring(cx,cy,15,4.6,rim,al);
-    if(MU_RING==='b'){ ring(cx,cy,15,4.6,rim,al); ring(cx,cy,11.5,3.4,soft,al*.6,3); }
-    if(MU_RING==='c'){ for(let y=-4;y<=4;y++) for(let x=-14;x<=14;x++){ const d=Math.hypot(x/14.5,y/4.4); if(d<1) px(cx+x,cy+y,soft,(1-d)*.32*al); } ring(cx,cy,15,4.6,rim,al); } }
-  q.putImageData(id,0,0);
-  g.globalCompositeOperation='screen';   // warm light pooled on the stones under every ring
-  for(const sl of slots){ const on=MU.dragAt===sl||MU.hover===sl; g.save(); g.translate(sl.x,sl.y); g.scale(1,.31); const r=19*X.k, gr=g.createRadialGradient(0,0,0,0,0,r);
-    gr.addColorStop(0,`rgba(255,130,50,${on?.42:.2+.07*Math.sin(t*2+sl.i*1.2)})`); gr.addColorStop(.75,'rgba(255,110,40,.08)'); gr.addColorStop(1,'rgba(255,110,40,0)'); g.fillStyle=gr; g.fillRect(-r,-r,r*2,r*2); g.restore(); }
-  g.globalCompositeOperation='lighter';
-  g.imageSmoothingEnabled=true; g.globalAlpha=.6; g.drawImage(MU.rl,X.sx-X.k,X.sy-X.k*.5,X.sw+2*X.k,X.sh+X.k); g.drawImage(MU.rl,X.sx+X.k,X.sy+X.k*.5,X.sw-2*X.k,X.sh-X.k);   // bloom
-  g.imageSmoothingEnabled=false; g.globalAlpha=.85; g.drawImage(MU.rl,X.sx,X.sy,X.sw,X.sh); g.globalAlpha=1; g.globalCompositeOperation='source-over'; }
+}
 function muFrame(ts){
   if(!MU.on) return; const c=$('muCv'), dpr=devicePixelRatio||1, W=Math.round(c.clientWidth*dpr), H=Math.round(c.clientHeight*dpr); if(c.width!==W||c.height!==H){ c.width=W; c.height=H; }
   const g=c.getContext('2d'), X=muXf(), t=ts/1000, img=document.querySelector('#townWorld .lbg'); g.setTransform(1,0,0,1,0,0); g.clearRect(0,0,W,H);
@@ -3251,7 +3089,7 @@ function muFrame(ts){
   requestAnimationFrame(muFrame);
 }
 // ---- web release: dist/version.json is checked now and then; a newer upload shows a quiet notice (local builds keep the marker and skip this)
-const BUILD_V='20261111-152400';
+const BUILD_V='20261111-163114';
 async function checkVersion(){ if(BUILD_V.startsWith('__')||location.protocol==='file:') return; try{ const r=await fetch('version.json?'+Date.now(),{cache:'no-store'}); const j=await r.json(); if(j.v&&j.v!==BUILD_V&&!$('newVer')){ const el=document.createElement('button'); el.id='newVer'; el.textContent='มีเวอร์ชันใหม่ · คลิกเพื่อโหลด (เซฟยังอยู่)'; el.onclick=()=>location.reload(); document.body.appendChild(el); } }catch(e){} }
 setTimeout(checkVersion,15000); setInterval(checkVersion,5*60000);
 function exportSave(){ try{ const t=localStorage.getItem(SAVE_KEY)||'{}', a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([t],{type:'application/json'})); a.download=`etern-spire-save-${new Date().toISOString().slice(0,10)}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000); }catch(e){} }
@@ -3582,13 +3420,13 @@ function frame(ts){
   for(const k in FXD.vfx) for(const l of ['behind','front']) if(FXD.vfx[k][l]) FXI[k+'_'+l]=await loadImg(FXD.vfx[k][l].img);
   for(const k in FXD.props) FXI[k]=await loadImg(FXD.props[k]);
   restoreGen();
-  const NH=Object.keys(HERO_DEFS).length; let nb=0; for(const k in HERO_DEFS){ await buildHero(k,false); $('startHint').textContent=`กำลังโหลดฮีโร่ ${++nb}/${NH}…`; await new Promise(r=>setTimeout(r,0)); }
+  const NH=Object.keys(HERO_DEFS).length; let nb=0; for(const k in HERO_DEFS){ await buildHero(k,false); $('startHint').textContent=`กำลังโหลดฮีโร่ ${++nb}/${NH}…`; $('bootMsg').textContent=`กำลังโหลด ${Math.round(nb/NH*100)}%`; await new Promise(r=>setTimeout(r,0)); }
   for(const k in VFX) vfxImg[k]=await loadImg(VFX[k].src);
   vfxImg.spear_blue=blueCopy(vfxImg.spear); vfxImg.bloodstorm_blue=blueCopy(vfxImg.bloodstorm);
   buildBg();
   try{await document.fonts.ready;}catch(e){}
   loadGame();
-  READY=true; openTown();
+  READY=true; openTown(); $("bootLoad").remove();   // the first screen is always the town
   refreshSetup();
   requestAnimationFrame(frame);
 })();
