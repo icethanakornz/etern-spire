@@ -282,6 +282,7 @@ html:has(#town:not([hidden])),html:has(#muster:not([hidden])){overflow:hidden}
 .hf-foot{display:flex;align-items:center;gap:10px;padding-top:10px;border-top:1px solid #4a3420}.hf-foot .sp{margin-left:auto;display:flex;gap:6px}
 .lm-mat{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid #33241a}.lm-mat:first-of-type{border-top:0}.lm-mat img{width:42px;height:42px;image-rendering:pixelated;background:#140e09;border:1px solid #4a3420;flex:none}.lm-mat b{color:#ffe2a8}.lm-mat>span{margin-left:auto;font:700 1.15rem var(--display);color:#ffe2a8}
 .lm-flow{display:flex;align-items:center;justify-content:center;gap:10px;margin:2px 0 6px;font:700 1rem var(--display);color:#ffe2a8}.lm-flow img{width:34px;image-rendering:pixelated;vertical-align:middle}.lm-flow i{color:#e0a33c;font-style:normal}.lm-use{padding:8px 0;border-top:1px solid #33241a}.lm-use:first-of-type{border-top:0}.lm-use b{color:#ffe2a8}
+.testtag{position:fixed;left:50%;bottom:8px;transform:translateX(-50%);z-index:2000;padding:3px 12px;background:rgba(120,40,20,.85);border:1px solid #e0a33c;color:#ffe2a8;font-size:.75rem;pointer-events:none}
 .sum-skip{position:absolute;right:18px;bottom:18px;z-index:5;padding:6px 16px;font-family:var(--display);font-size:.9rem;background:rgba(20,14,9,.85);color:#ffe2a8;border:1px solid #8a6236;cursor:pointer}.sum-skip:hover{border-color:#e0a33c}
 .sa-c{display:flex;gap:14px;font-family:var(--display);font-size:.95rem;margin:4px 0}.sa-c b{color:#ffe2a8}.sa-last{display:grid;grid-template-columns:repeat(10,48px);gap:4px;margin:4px 0}.sa-k{display:flex;flex-direction:column;align-items:center;background:#140e09;border:1px solid #4a3420;box-shadow:inset 0 0 10px rgba(var(--c),.3);padding:2px 0;animation:saIn .25s ease-out both}.sa-k img{width:40px;height:40px;image-rendering:pixelated}.sa-k img.wait{opacity:.25}.sa-k i{font-style:normal;font-family:var(--display);font-size:.7rem}.sa-n{color:#9a8a74;font-size:.78rem}@keyframes saIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .sum-auto{position:absolute;left:50%;top:16%;transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:3px;padding:14px 22px;background:rgba(20,14,9,.92);border:1px solid #8a6236;color:#e8dcc8;font-size:.85rem}.sum-auto b{font-family:var(--display);color:#ffe2a8;font-size:1.05rem}.sum-auto button{margin-top:6px;padding:4px 18px}
@@ -3409,7 +3410,7 @@ function muFrame(ts){
   requestAnimationFrame(muFrame);
 }
 // ---- web release: dist/version.json is checked now and then; a newer upload shows a quiet notice (local builds keep the marker and skip this)
-const BUILD_V='20261112-012853';
+const BUILD_V='20261112-013424';
 async function checkVersion(){ if(BUILD_V.startsWith('__')||location.protocol==='file:') return; try{ const r=await fetch('version.json?'+Date.now(),{cache:'no-store'}); const j=await r.json(); if(j.v&&j.v!==BUILD_V&&!$('newVer')){ const el=document.createElement('button'); el.id='newVer'; el.textContent='มีเวอร์ชันใหม่ · คลิกเพื่อโหลด (เซฟยังอยู่)'; el.onclick=()=>location.reload(); document.body.appendChild(el); } }catch(e){} }
 setTimeout(checkVersion,15000); setInterval(checkVersion,5*60000);
 function exportSave(){ try{ const t=localStorage.getItem(SAVE_KEY)||'{}', a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([t],{type:'application/json'})); a.download=`etern-spire-save-${new Date().toISOString().slice(0,10)}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000); }catch(e){} }
@@ -3822,7 +3823,9 @@ $('twReset').addEventListener('click',()=>$('reviveBtn').click());
 // What is kept: every hero's alive/dead, team row, stress and stress condition; settings; the last run's battle record
 // (events only, no replay frames). Written after any change in the team screen, and during a run after every death,
 // breakdown and cleared floor, so a permanent death survives closing the page. A page closed mid-floor loses only that floor.
-const SAVE_KEY='ashtower-demo-save', SAVE_V=1;
+// test links: ?test=hidden (awakening scene) and ?test=summon (endless gold) never save; ?test=all is the friends' test build: its own save, plenty of everything
+const TESTMODE=new URLSearchParams(location.search).get('test');
+const SAVE_KEY=TESTMODE==='all'?'ashtower-test-save':'ashtower-demo-save', SAVE_V=1;
 function saveData(){
   const ro={};
   for(const k in roster){ const r=roster[k]; ro[k]={alive:r.alive,row:r.row,team:r.team||1,stress:Math.round(r.stress||0),aff:r.aff||null,lv:r.lv||1,exp:r.exp||0,rec:r.rec||null,st:r.st||null,hidden:r.hidden||null,born:r.born||null,hmiss:r.hmiss||0,mastery:r.mastery||null,book:r.book||null,trust:r.trust??null,mem:r.mem||null,grief:r.grief||0,promise:r.promise||0,titles:r.titles||null,eng:r.eng||null}; }
@@ -3833,11 +3836,10 @@ function saveData(){
 }
 let saveT=null;
 function saveSoon(){ clearTimeout(saveT); saveT=setTimeout(()=>saveGame(),300); }
-const TESTMODE=new URLSearchParams(location.search).get('test');   // ?test=hidden : show the awakening scene, never write the save
 async function testHidden(){ const k=Object.keys(roster).find(x=>roster[x].alive&&!roster[x].hidden&&promoInfo(x)&&promoInfo(x).body); if(!k){ alert('ไม่มีฮีโร่ที่เลื่อนขั้นได้สำหรับทดสอบ'); return; }
   TOWN.shards=999; TOWN.gold=99999; roster[k].lv=80; await openHeroFile(k); }   // press the promote button yourself; promoteHero forces the awakening in this mode
 function saveGame(msg){
-  if(!READY||TESTMODE) return; let d=saveData(), txt;
+  if(!READY||(TESTMODE&&TESTMODE!=='all')) return; let d=saveData(), txt;
   try{ txt=JSON.stringify(d); localStorage.setItem(SAVE_KEY,txt); }
   catch(e){ try{ d.rec=d.rec.slice(-3); localStorage.setItem(SAVE_KEY,JSON.stringify(d)); }catch(e2){ $('saveInfo').textContent='บันทึกไม่ได้ (เบราว์เซอร์ไม่อนุญาต)'; return; } }
   const t=new Date(); $('saveInfo').textContent=`💾 ${msg||'บันทึกแล้ว'} ${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}`;
@@ -3880,7 +3882,9 @@ function frame(ts){
   buildBg();
   try{await document.fonts.ready;}catch(e){}
   loadGame();
-  READY=true; openTown(); $("bootLoad").remove(); if(TESTMODE==='hidden') setTimeout(testHidden,500); if(TESTMODE==='summon'){ TOWN.gold=999999; openTown(); }   // ?test=summon : endless gold for summon tests, nothing is saved   // the first screen is always the town
+  READY=true; openTown(); $("bootLoad").remove(); if(TESTMODE==='hidden') setTimeout(testHidden,500); if(TESTMODE==='summon'){ TOWN.gold=999999; openTown(); }
+  if(TESTMODE==='all'){ if(!TOWN.testGift){ TOWN.testGift=1; Object.assign(TOWN,{gold:999999,ore:99999,wood:9999,plank:9999,rarewood:999,shards:9999,stones:999}); TOWN.cons={CP_hp:30,CP_mp:30,CP_tea:30,CP_scroll:10,CP_feather:10}; saveGame('เริ่มโหมดทดสอบ: ทรัพยากรเต็ม'); }
+    const t=document.createElement('div'); t.className='testtag'; t.textContent='โหมดทดสอบ · เซฟแยกจากเกมจริง'; document.body.appendChild(t); openTown(); }   // ?test=summon : endless gold for summon tests, nothing is saved   // the first screen is always the town
   refreshSetup();
   requestAnimationFrame(frame);
 })();
