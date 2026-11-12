@@ -642,6 +642,8 @@ const SKV={tan:1,pale:1.28,dark:0.62,deep:0.45};
 function rgb2hsv(r,g,b){const mx=Math.max(r,g,b),mn=Math.min(r,g,b),d=mx-mn;let h=0;if(d){if(mx===r)h=((g-b)/d)%6;else if(mx===g)h=(b-r)/d+2;else h=(r-g)/d+4;h/=6;if(h<0)h+=1}return[h,mx?d/mx:0,mx]}
 function hsv2rgb(h,s,v){const i=Math.floor(h*6),f=h*6-i,p=v*(1-s),q=v*(1-f*s),t=v*(1-(1-f)*s);return [[v,t,p],[q,v,p],[p,v,t],[p,q,v],[t,p,v],[v,p,q]][((i%6)+6)%6]}
 function cnv(w,h){const c=document.createElement('canvas');c.width=w;c.height=h;return c}
+// sprite frames are read back (bounding box) after drawing: keep them in memory, not on the GPU, or every read stalls the game (ICE 2026-11-13 lag)
+function cnvR(w,h){const c=cnv(w,h);c.getContext('2d',{willReadFrequently:true});return c}
 function isSkinPx(r,g,b){const[h,s,v]=rgb2hsv(r/255,g/255,b/255);return (h<=0.11||h>=0.97)&&s>=0.2&&s<=0.75&&v>0.3}
 function recolorSkin(img,val){const c=cnv(img.width,img.height),x=c.getContext('2d');x.drawImage(img,0,0);if(val===1)return c;
   const d=x.getImageData(0,0,c.width,c.height),p=d.data;for(let i=0;i<p.length;i+=4){if(!p[i+3])continue;const[h,s,v]=rgb2hsv(p[i]/255,p[i+1]/255,p[i+2]/255);
@@ -679,7 +681,7 @@ function composeFrame(def,raw,skinned,hairC,md,anim,f){
   x.putImageData(B,0,0); return out;
 }
 let SCALP_FIX=true, SCALP_FILLED=0;
-function flipC(c){const m=cnv(64,64),g=m.getContext('2d');g.translate(64,0);g.scale(-1,1);g.drawImage(c,0,0);return m}
+function flipC(c){const m=cnvR(64,64),g=m.getContext('2d');g.translate(64,0);g.scale(-1,1);g.drawImage(c,0,0);return m}
 // one build per hero and kind at a time (setup warm-up, start button and pose viewer can all ask)
 const HBUILD={}, RAWC={}, SKINC={}, HAIRC={};
 function buildHero(key,full){
@@ -687,12 +689,12 @@ function buildHero(key,full){
   const id=key+(full?':full':':idle'); return HBUILD[id]||(HBUILD[id]=_buildHero(key,full).finally(()=>{delete HBUILD[id];}));
 }
 // skin recolour of a base sheet, done one 64px row (one animation direction) at a time and shared by heroes with the same look
-function skinSheet(raw,val){ const rows={}; return {row(r){ if(rows[r]) return rows[r]; const c=cnv(raw.width,64); c.getContext('2d').drawImage(raw,0,r*64,raw.width,64,0,0,raw.width,64); return rows[r]=recolorSkin(c,val); }}; }
+function skinSheet(raw,val){ const rows={}; return {row(r){ if(rows[r]) return rows[r]; const c=cnvR(raw.width,64); c.getContext('2d').drawImage(raw,0,r*64,raw.width,64,0,0,raw.width,64); return rows[r]=recolorSkin(c,val); }}; }
 // 7-star "No." heroes have their own 128px sheet (ext/noNNN.png from build.py): rows idle/walk/attack x S,SE,E,NE,N, 9 frames; west side mirrored
 const NOSHEET={};
-function flipAny(c){const m=cnv(c.width,c.height),g=m.getContext('2d');g.translate(c.width,0);g.scale(-1,1);g.drawImage(c,0,0);return m}
+function flipAny(c){const m=cnvR(c.width,c.height),g=m.getContext('2d');g.translate(c.width,0);g.scale(-1,1);g.drawImage(c,0,0);return m}
 async function buildNo(key){ const def=HERO_DEFS[key], im=NOSHEET[def.sheet]||(NOSHEET[def.sheet]=await loadImg(extUrl(def.sheet+'.png')));
-  const cut=(row,f)=>{const c=cnv(128,128);c.getContext('2d').drawImage(im,f*128,row*128,128,128,0,0,128,128);return c;};
+  const cut=(row,f)=>{const c=cnvR(128,128);c.getContext('2d').drawImage(im,f*128,row*128,128,128,0,0,128,128);return c;};
   const out={idle:{},idleA:{},walk:{},attack:{},full:true};
   ['idleA','walk','attack'].forEach((a,ai)=>GEN5.forEach((d,r)=>{ const fr=[],fl=[]; for(let f=0;f<9;f++){ const c=cut(ai*5+r,f); fr.push(prep(c)); fl.push(prep(flipAny(c))); } out[a][d]=fr; for(const m in MIR) if(MIR[m]===d) out[a][m]=fl; }));
   for(const d of DIRS) out.idle[d]=out.idleA[d][0];
@@ -852,7 +854,7 @@ const MONIMG={};
 async function loadMonsters(){ await Promise.all(Object.entries(MON_SHEETS).map(async ([key,sheet])=>{MONIMG[key]=await loadImg(sheet.img);})); }
 function ensureMon(key){
   if(monFrames[key]) return; const image=MONIMG[key], {w,h,standing,animated}=MON_SHEETS[key];
-  const cut=(col,row)=>{const c=cnv(w,h); c.getContext('2d').drawImage(image,col*w,row*h,w,h,0,0,w,h); return prep(c);};
+  const cut=(col,row)=>{const c=cnvR(w,h); c.getContext('2d').drawImage(image,col*w,row*h,w,h,0,0,w,h); return prep(c);};
   const idle={}, walk={}, attack={};
   standing.forEach((d,i)=>idle[d.replaceAll('-','_')]=cut(i,0));
   animated.forEach((d,i)=>{const dir=d.replaceAll('-','_'); walk[dir]=Array.from({length:9},(_,f)=>cut(f,1+i)); attack[dir]=Array.from({length:9},(_,f)=>cut(f,1+animated.length+i));});
@@ -863,7 +865,7 @@ const WARMED=new WeakSet(); let warmG=null;   // draws go to the real battle can
 function framesIn(x,out=[]){ if(!x||typeof x!=='object') return out; if(x.img&&x.w&&!WARMED.has(x)){ out.push(x); return out; } for(const k in x) if(k!=='img') framesIn(x[k],out); return out; }
 async function warmFrames(sets,onProg){ warmG=warmG||cv.getContext('2d'); const L=[]; for(const x of sets) framesIn(x,L); let t=performance.now(); for(const im of [...Object.values(vfxImg),...Object.values(FXI)]) if(im&&!WARMED.has(im)){ WARMED.add(im); try{ warmG.drawImage(im,0,0,1,1); }catch(e){} }
   for(let i=0;i<L.length;i++){ const o=L[i]; WARMED.add(o); o.bx; for(const v of [o.img,o.flip,o.white,o.red,flipOf(o,'white'),flipOf(o,'red')]) warmG.drawImage(v,0,0,1,1);
-    if(performance.now()-t>12){ if(onProg) onProg(i/L.length); await new Promise(r=>setTimeout(r,0)); t=performance.now(); } }
+    if(performance.now()-t>(onProg?12:4)){ if(onProg) onProg(i/L.length); await new Promise(r=>setTimeout(r,0)); t=performance.now(); } }
   if(onProg) onProg(1); return L.length; }
 function loadMsg(t){ let el=$('loadMsg'); if(t==null){ if(el) el.remove(); return; } if(!el){ el=document.createElement('div'); el.id='loadMsg'; document.body.appendChild(el); } el.textContent=t; }
 async function ensureZone(z){ for(const k of zoneMons(z)) if(!monFrames[k]){ ensureMon(k); await new Promise(r=>setTimeout(r,0)); } await warmFrames(zoneMons(z).map(k=>monFrames[k])); }
@@ -3988,7 +3990,7 @@ function muFrame(ts){
   requestAnimationFrame(muFrame);
 }
 // ---- web release: dist/version.json is checked now and then; a newer upload shows a quiet notice (local builds keep the marker and skip this)
-const BUILD_V='20261113-023322';
+const BUILD_V='20261113-025620';
 async function checkVersion(){ if(BUILD_V.startsWith('__')||location.protocol==='file:') return; try{ const r=await fetch('version.json?'+Date.now(),{cache:'no-store'}); const j=await r.json(); if(j.v&&j.v!==BUILD_V&&!$('newVer')){ const el=document.createElement('button'); el.id='newVer'; el.textContent='มีเวอร์ชันใหม่ · คลิกเพื่อโหลด (เซฟยังอยู่)'; el.onclick=()=>location.reload(); document.body.appendChild(el); } }catch(e){} }
 setTimeout(checkVersion,15000); setInterval(checkVersion,5*60000);
 function exportSave(){ try{ const t=localStorage.getItem(SAVE_KEY)||'{}', a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([t],{type:'application/json'})); a.download=`etern-spire-save-${new Date().toISOString().slice(0,10)}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000); }catch(e){} }
